@@ -42,7 +42,7 @@ Outputs: `cluster_name`, `cluster_endpoint` (sensitive), `cluster_location`.
 The Google provider reads **Application Default Credentials (ADC)**, not the credentials from `gcloud auth login`.
 
 ```sh
-gcloud auth login                                   # optional: only for gcloud CLI commands
+gcloud auth login                                   # required for authenticated gcloud CLI commands below unless already logged in
 gcloud auth application-default login               # required: creates ADC used by OpenTofu
 gcloud config set project YOUR_PROJECT_ID
 gcloud auth application-default set-quota-project YOUR_PROJECT_ID
@@ -60,7 +60,7 @@ gcloud auth application-default print-access-token > /dev/null && echo ok
 Enable the required APIs:
 
 ```sh
-gcloud services enable container.googleapis.com compute.googleapis.com
+gcloud services enable container.googleapis.com compute.googleapis.com iam.googleapis.com iamcredentials.googleapis.com
 ```
 
 **Roles needed** on the project: enough to create the VPC, Cloud Router/NAT, a service account and the cluster, and to grant IAM roles to the node service account. For example `roles/editor` + `roles/iam.serviceAccountAdmin` + `roles/resourcemanager.projectIamAdmin`.
@@ -71,7 +71,7 @@ gcloud services enable container.googleapis.com compute.googleapis.com
 export TF_VAR_master_authorized_networks='[{"cidr_block":"YOUR_PUBLIC_IP/32","display_name":"my-workstation"}]'
 ```
 
-**Alternative (preferred over service account key files):** impersonate a service account (your user needs `roles/iam.serviceAccountTokenCreator` on it).
+**Alternative (preferred over service account key files):** impersonate a service account. Your user needs `roles/iam.serviceAccountTokenCreator` on it, and the service account needs the project deployment roles described above.
 
 ```sh
 export GOOGLE_IMPERSONATE_SERVICE_ACCOUNT=SA_NAME@YOUR_PROJECT_ID.iam.gserviceaccount.com
