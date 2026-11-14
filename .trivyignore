@@ -1,0 +1,3 @@
+# Trivy ignore list. Currently empty: `trivy config` reports 0 HIGH/CRITICAL findings.
+# If an exception is ever needed, add the check ID (e.g. AVD-GCP-0000) on its own line
+# with a comment explaining why it is accepted and who approved it.

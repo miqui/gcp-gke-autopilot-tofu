@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+  # Dependabot's "terraform" ecosystem also covers OpenTofu providers
+  # (.tf files + .terraform.lock.hcl).
+  - package-ecosystem: terraform
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: terraform
+    directory: /modules/gke-autopilot
+    schedule:
+      interval: weekly
